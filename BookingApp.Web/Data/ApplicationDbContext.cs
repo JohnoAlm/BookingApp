@@ -20,4 +20,6 @@ namespace BookingApp.Web.Data
                    .HasKey(a => new { a.ApplicationUserId, a.GymClassId });
         }
     }
+
+    //Install-Package Microsoft.EntityFrameworkCore.Tools -Version 6.0.8
 }
