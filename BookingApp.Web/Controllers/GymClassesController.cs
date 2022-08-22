@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookingApp.Core.Entitis;
-using BookingApp.Web.Data;
+using BookingApp.Data.Data;
 
 namespace BookingApp.Web.Controllers
 {

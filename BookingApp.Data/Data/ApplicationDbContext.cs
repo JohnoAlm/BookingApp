@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace BookingApp.Web.Data
+namespace BookingApp.Data.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
