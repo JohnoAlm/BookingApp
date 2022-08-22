@@ -9,5 +9,6 @@ namespace BookingApp.Core.Entitis
 {
     public class ApplicationUser : IdentityUser
     {
+        public ICollection<ApplicationUserGymClass> AttendinClasses { get; set; } = new List<ApplicationUserGymClass>();
     }
 }
