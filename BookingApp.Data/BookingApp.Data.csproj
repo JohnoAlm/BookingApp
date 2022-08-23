@@ -15,4 +15,8 @@
     <ProjectReference Include="..\BookingApp.Core\BookingApp.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
+  </ItemGroup>
+
 </Project>
