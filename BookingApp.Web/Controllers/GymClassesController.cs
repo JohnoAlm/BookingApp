@@ -29,7 +29,7 @@ namespace BookingApp.Web.Controllers
         // GET: GymClasses
         public async Task<IActionResult> Index()
         {
-            return View(await db.GymClasses.ToListAsync());
+            return View(await db.GymClasses/*.IgnoreQueryFilters()*/.ToListAsync());
         }
 
         [Authorize]
