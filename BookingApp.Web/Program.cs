@@ -1,5 +1,6 @@
 using BookingApp.Core.Entitis;
 using BookingApp.Data.Data;
+using BookingApp.Web.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,11 +22,14 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     options.Password.RequiredLength = 3;
 
 })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+await app.SeedDataAsync();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
