@@ -28,12 +28,13 @@ namespace BookingApp.Web.Controllers
         }
 
         // GET: GymClasses
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(await db.GymClasses/*.IgnoreQueryFilters()*/.ToListAsync());
         }
 
-        [Authorize]
+       // [Authorize]
         public async Task<IActionResult> BookingToggle(int? id)
         {
             if (id is null) return BadRequest();
