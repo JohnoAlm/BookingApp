@@ -42,12 +42,7 @@ namespace BookingApp.Web.Controllers
             var userId = userManager.GetUserId(User);
 
             if (userId == null) return BadRequest();
-
-            //var currentGymClass = await db.GymClasses.Include(g => g.AttendingMembers)
-            //                                         .FirstOrDefaultAsync(a => a.Id == id);
-
-            //var attending = currentGymClass?.AttendingMembers.FirstOrDefault(a => a.ApplicationUserId == userId);
-            //
+           
             var attending = await db.AppUserGyms.FindAsync(userId, id);
 
             if (attending == null)
@@ -106,8 +101,14 @@ namespace BookingApp.Web.Controllers
             {
                 db.Add(gymClass);
                 await db.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return Request.IsAjax() ? PartialView("GymClassesPartial", await db.GymClasses.ToListAsync()) :  RedirectToAction(nameof(Index));
             }
+            //Check if Ajax!
+            if (Request.IsAjax())
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+
             return View(gymClass);
         }
 
