@@ -1,5 +1,6 @@
 using BookingApp.Core.Entitis;
 using BookingApp.Data.Data;
+using BookingApp.Data.Repositories;
 using BookingApp.Web.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -37,6 +38,8 @@ builder.Services.AddControllersWithViews(opt =>
 
     opt.Filters.Add(new AuthorizeFilter(policy));
 });
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 

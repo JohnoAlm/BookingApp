@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BookingApp.Data.Repositories
 {
-    public class ApplicationUserGymRepository
+    public class ApplicationUserGymRepository : IApplicationUserGymRepository
     {
         private readonly ApplicationDbContext db = null!;
 
@@ -27,8 +27,8 @@ namespace BookingApp.Data.Repositories
         public void Add(ApplicationUserGymClass booking)
         {
             db.AppUserGyms.Add(booking);
-        } 
-        
+        }
+
         public void Remove(ApplicationUserGymClass attending)
         {
             db.Remove(attending);

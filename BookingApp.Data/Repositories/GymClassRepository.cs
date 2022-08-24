@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BookingApp.Data.Repositories
 {
-    public class GymClassRepository
+    public class GymClassRepository : IGymClassRepository
     {
         private readonly ApplicationDbContext db;
 

@@ -7,13 +7,17 @@ using System.Threading.Tasks;
 
 namespace BookingApp.Data.Repositories
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext db;
+        public IGymClassRepository GymClassRepository { get; }
+        public IApplicationUserGymRepository UserGymRepository { get; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
             this.db = db;
+            GymClassRepository = new GymClassRepository(db);
+            UserGymRepository = new ApplicationUserGymRepository(db);
         }
 
         public async Task CompleteAsync()

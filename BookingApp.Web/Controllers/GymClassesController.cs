@@ -21,22 +21,26 @@ namespace BookingApp.Web.Controllers
     {
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly GymClassRepository gymClassRepository;
-        private readonly ApplicationUserGymRepository userGymRepository;
+        private readonly IUnitOfWork uow;
 
-        public GymClassesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        //private readonly GymClassRepository gymClassRepository;
+        //private readonly ApplicationUserGymRepository userGymRepository;
+
+        public GymClassesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IUnitOfWork uow)
         {
             db = context;
             this.userManager = userManager;
-            gymClassRepository = new GymClassRepository(context);
-            userGymRepository = new ApplicationUserGymRepository(context);
+            //uow = new UnitOfWork(db);
+            //gymClassRepository = new GymClassRepository(context);
+            //userGymRepository = new ApplicationUserGymRepository(context);
+            this.uow = uow;
         }
 
         // GET: GymClasses
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            return base.View(await gymClassRepository.GetAsync());
+            return base.View(await uow.GymClassRepository.GetAsync());
         }
 
        
@@ -51,7 +55,7 @@ namespace BookingApp.Web.Controllers
 
             if (userId == null) return BadRequest();
 
-            var attending = await userGymRepository.FindAsync(userId, (int)id);
+            var attending = await uow.UserGymRepository.FindAsync(userId, (int)id);
 
             if (attending == null)
             {
@@ -61,13 +65,13 @@ namespace BookingApp.Web.Controllers
                     GymClassId = (int)id
                 };
 
-                userGymRepository.Add(booking); 
+                uow.UserGymRepository.Add(booking); 
 
                // db.AppUserGyms.Add(booking);
             }
             else
             {
-                userGymRepository.Remove(attending);
+                uow.UserGymRepository.Remove(attending);
                 //db.AppUserGyms.Remove(attending);
             }
 
@@ -80,7 +84,7 @@ namespace BookingApp.Web.Controllers
         // GET: GymClasses/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || db.GymClasses == null)
+            if (id == null )
             {
                 return NotFound();
             }
@@ -132,7 +136,7 @@ namespace BookingApp.Web.Controllers
         // GET: GymClasses/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || db.GymClasses == null)
+            if (id == null )
             {
                 return NotFound();
             }
