@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using BookingApp.Web.Extensions;
+using BookingApp.Data.Repositories;
 
 namespace BookingApp.Web.Controllers
 {
@@ -20,21 +21,27 @@ namespace BookingApp.Web.Controllers
     {
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly GymClassRepository gymClassRepository;
+        private readonly ApplicationUserGymRepository userGymRepository;
 
         public GymClassesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             db = context;
             this.userManager = userManager;
+            gymClassRepository = new GymClassRepository(context);
+            userGymRepository = new ApplicationUserGymRepository(context);
         }
 
         // GET: GymClasses
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            return View(await db.GymClasses.ToListAsync());
+            return base.View(await gymClassRepository.GetAsync());
         }
 
-       // [Authorize]
+       
+
+        // [Authorize]
         public async Task<IActionResult> BookingToggle(int? id)
         {
             if (id is null) return BadRequest();
@@ -43,8 +50,8 @@ namespace BookingApp.Web.Controllers
             var userId = userManager.GetUserId(User);
 
             if (userId == null) return BadRequest();
-           
-            var attending = await db.AppUserGyms.FindAsync(userId, id);
+
+            var attending = await userGymRepository.FindAsync(userId, (int)id);
 
             if (attending == null)
             {
@@ -54,11 +61,14 @@ namespace BookingApp.Web.Controllers
                     GymClassId = (int)id
                 };
 
-                db.AppUserGyms.Add(booking);
+                userGymRepository.Add(booking); 
+
+               // db.AppUserGyms.Add(booking);
             }
             else
             {
-                db.AppUserGyms.Remove(attending);
+                userGymRepository.Remove(attending);
+                //db.AppUserGyms.Remove(attending);
             }
 
             await db.SaveChangesAsync();
