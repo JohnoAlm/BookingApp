@@ -7,7 +7,7 @@
 <h1>Index</h1>
 <div id="createajax"></div>
 
-<p>
+<div>
     <a asp-action="Create">Create Original</a>
 
     <a asp-action="Create" class="btn btn-dark"
@@ -17,7 +17,10 @@
        data-ajax-mode="replace"
         data-ajax-success="fixValidation"
     >Create Ajax</a>
-</p>
+
+    <p id="fetch" class="btn btn-dark">Fetch</p>
+
+</div>
 <table class="table">
     <thead>
         <tr>
