@@ -101,12 +101,13 @@ namespace BookingApp.Web.Controllers
             {
                 db.Add(gymClass);
                 await db.SaveChangesAsync();
-                return Request.IsAjax() ? PartialView("GymClassesPartial", await db.GymClasses.ToListAsync()) :  RedirectToAction(nameof(Index));
+                return Request.IsAjax() ? PartialView("GymClass", gymClass) :  RedirectToAction(nameof(Index));
             }
             //Check if Ajax!
             if (Request.IsAjax())
             {
-                return StatusCode(StatusCodes.Status400BadRequest);
+                Response.StatusCode = StatusCodes.Status400BadRequest;
+                return PartialView("CreatePartial", gymClass);
             }
 
             return View(gymClass);
