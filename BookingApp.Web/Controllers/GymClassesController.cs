@@ -31,7 +31,7 @@ namespace BookingApp.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            return View(await db.GymClasses/*.IgnoreQueryFilters()*/.ToListAsync());
+            return View(await db.GymClasses.ToListAsync());
         }
 
        // [Authorize]

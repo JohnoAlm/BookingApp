@@ -21,6 +21,7 @@ namespace BookingApp.Data.Data
                    .HasKey(a => new { a.ApplicationUserId, a.GymClassId });
 
             builder.Entity<GymClass>().HasQueryFilter(g => g.StartDate > DateTime.Now);
+            builder.Entity<ApplicationUserGymClass>().HasQueryFilter(g => g.GymClass.StartDate > DateTime.Now);
         }
     }
 
