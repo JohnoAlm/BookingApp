@@ -44,6 +44,7 @@ namespace BookingApp.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
+            
            // var m = await mapper.ProjectTo<GymClassesViewModel>(db.GymClasses).ToListAsync();
 
             var classes = await uow.GymClassRepository.GetAsync();
