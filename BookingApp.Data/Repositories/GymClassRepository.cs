@@ -27,6 +27,17 @@ namespace BookingApp.Data.Repositories
         public async Task<IEnumerable<GymClass>> GetWithAttendinAsync()
         {
             return await db.GymClasses.Include(g => g.AttendingMembers).ToListAsync();
+        }   
+        
+        public async Task<IEnumerable<GymClass>> GetHistoryAsync()
+        {
+            return await db.GymClasses
+                .Include(g => g.AttendingMembers)
+                .IgnoreQueryFilters()
+                .Where(g => g.StartDate < DateTime.Now)
+                .ToListAsync();
         }
+
+
     }
 }

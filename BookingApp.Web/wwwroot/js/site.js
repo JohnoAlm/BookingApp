@@ -31,3 +31,8 @@ function fetchCreateForm() {
         })
         .catch(err => console.log(err));
 }
+
+
+$('#checkbox').click(function () {
+    $('form').submit();
+})

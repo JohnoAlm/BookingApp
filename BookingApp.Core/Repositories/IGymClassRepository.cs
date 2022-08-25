@@ -6,5 +6,6 @@ namespace BookingApp.Core.Repositories
     {
         Task<IEnumerable<GymClass>> GetAsync();
         Task<IEnumerable<GymClass>> GetWithAttendinAsync();
+        Task<IEnumerable<GymClass>> GetHistoryAsync();
     }
 }

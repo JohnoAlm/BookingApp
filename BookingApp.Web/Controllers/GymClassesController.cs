@@ -42,34 +42,20 @@ namespace BookingApp.Web.Controllers
 
         // GET: GymClasses
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(IndexViewModel viewModel)
         {
+
+            if (User.Identity != null && !User.Identity.IsAuthenticated)
+                return View(mapper.Map<IndexViewModel>(await uow.GymClassRepository.GetAsync()));
+
+            var gymclasses = viewModel.ShowHistory ? 
+                            await uow.GymClassRepository.GetHistoryAsync() : 
+                            await uow.GymClassRepository.GetWithAttendinAsync();
+
+            var model = mapper.Map<IndexViewModel>(gymclasses);
             
-           // var m = await mapper.ProjectTo<GymClassesViewModel>(db.GymClasses).ToListAsync();
 
-            var classes = await uow.GymClassRepository.GetAsync();
-            var mmm = mapper.Map<IEnumerable<GymClassesViewModel>>(classes);
-
-            var userId = userManager.GetUserId(User);
-            var gymClasses2 = await uow.GymClassRepository.GetWithAttendinAsync();//await db.GymClasses.Include(g => g.AttendingMembers).ToListAsync();
-            var res = mapper.Map<IEnumerable<GymClassesViewModel>>(gymClasses2);//, opt => opt.Items.Add("Id", userId));
-
-            var mmmm = new IndexViewModel
-            {
-                GymClasses = await db.GymClasses.Include(g => g.AttendingMembers) //Include Not required
-                                           .Select(g => new GymClassesViewModel
-                                           {
-                                               Id = g.Id,
-                                               Name = g.Name,
-                                               Duration = g.Duration,
-                                               StartDate = g.StartDate,
-                                               Attending = g.AttendingMembers.Any(a => a.ApplicationUserId == userId)
-                                           })
-                                           .ToListAsync()
-            };
-
-
-            return base.View(res);
+            return base.View(model);
         }
 
        
