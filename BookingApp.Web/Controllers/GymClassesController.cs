@@ -54,7 +54,9 @@ namespace BookingApp.Web.Controllers
             var gymClasses2 = await uow.GymClassRepository.GetWithAttendinAsync();//await db.GymClasses.Include(g => g.AttendingMembers).ToListAsync();
             var res = mapper.Map<IEnumerable<GymClassesViewModel>>(gymClasses2);//, opt => opt.Items.Add("Id", userId));
 
-            var gymClasses = await db.GymClasses.Include(g => g.AttendingMembers) //Include Not required
+            var mmmm = new IndexViewModel
+            {
+                GymClasses = await db.GymClasses.Include(g => g.AttendingMembers) //Include Not required
                                            .Select(g => new GymClassesViewModel
                                            {
                                                Id = g.Id,
@@ -63,7 +65,9 @@ namespace BookingApp.Web.Controllers
                                                StartDate = g.StartDate,
                                                Attending = g.AttendingMembers.Any(a => a.ApplicationUserId == userId)
                                            })
-                                           .ToListAsync();
+                                           .ToListAsync()
+            };
+
 
             return base.View(res);
         }
