@@ -1,4 +1,5 @@
 using BookingApp.Core.Entitis;
+using BookingApp.Core.Repositories;
 using BookingApp.Data.Data;
 using BookingApp.Data.Repositories;
 using BookingApp.Web.Extensions;

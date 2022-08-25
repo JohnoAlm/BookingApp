@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using BookingApp.Web.Extensions;
-using BookingApp.Data.Repositories;
+using BookingApp.Core.Repositories;
 
 namespace BookingApp.Web.Controllers
 {

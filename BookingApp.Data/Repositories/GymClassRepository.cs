@@ -1,4 +1,5 @@
 ﻿using BookingApp.Core.Entitis;
+using BookingApp.Core.Repositories;
 using BookingApp.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,9 +19,9 @@ namespace BookingApp.Data.Repositories
             this.db = db;
         }
 
-        public Task<List<GymClass>> GetAsync()
+        public async Task<IEnumerable<GymClass>> GetAsync()
         {
-            return db.GymClasses.ToListAsync();
+            return await db.GymClasses.ToListAsync();
         }
     }
 }

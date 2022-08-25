@@ -1,9 +1,9 @@
 ﻿using BookingApp.Core.Entitis;
 
-namespace BookingApp.Data.Repositories
+namespace BookingApp.Core.Repositories
 {
     public interface IGymClassRepository
     {
-        Task<List<GymClass>> GetAsync();
+        Task<IEnumerable<GymClass>> GetAsync();
     }
 }

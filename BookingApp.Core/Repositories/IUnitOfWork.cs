@@ -1,4 +1,4 @@
-﻿namespace BookingApp.Data.Repositories
+﻿namespace BookingApp.Core.Repositories
 {
     public interface IUnitOfWork
     {
