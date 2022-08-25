@@ -1,5 +1,6 @@
 using BookingApp.Core.Entitis;
 using BookingApp.Core.Repositories;
+using BookingApp.Data;
 using BookingApp.Data.Data;
 using BookingApp.Data.Repositories;
 using BookingApp.Web.Extensions;
@@ -41,6 +42,8 @@ builder.Services.AddControllersWithViews(opt =>
 });
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddAutoMapper(typeof(MapperProfile));
 
 var app = builder.Build();
 

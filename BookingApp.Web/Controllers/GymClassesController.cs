@@ -14,11 +14,13 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using BookingApp.Web.Extensions;
 using BookingApp.Core.Repositories;
+using AutoMapper;
 
 namespace BookingApp.Web.Controllers
 {
     public class GymClassesController : Controller
     {
+        private readonly IMapper mapper;
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IUnitOfWork uow;
@@ -26,8 +28,9 @@ namespace BookingApp.Web.Controllers
         //private readonly GymClassRepository gymClassRepository;
         //private readonly ApplicationUserGymRepository userGymRepository;
 
-        public GymClassesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IUnitOfWork uow)
+        public GymClassesController(IMapper mapper ,ApplicationDbContext context, UserManager<ApplicationUser> userManager, IUnitOfWork uow)
         {
+            this.mapper = mapper;
             db = context;
             this.userManager = userManager;
             //uow = new UnitOfWork(db);
