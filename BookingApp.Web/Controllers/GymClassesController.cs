@@ -50,6 +50,8 @@ namespace BookingApp.Web.Controllers
             var mmm = mapper.Map<IEnumerable<GymClassesViewModel>>(classes);
 
             var userId = userManager.GetUserId(User);
+            var gymClasses2 = await uow.GymClassRepository.GetWithAttendinAsync();//await db.GymClasses.Include(g => g.AttendingMembers).ToListAsync();
+            var res = mapper.Map<IEnumerable<GymClassesViewModel>>(gymClasses2, opt => opt.Items.Add("Id", userId));
 
             var gymClasses = await db.GymClasses.Include(g => g.AttendingMembers) //Include Not required
                                            .Select(g => new GymClassesViewModel
@@ -62,7 +64,7 @@ namespace BookingApp.Web.Controllers
                                            })
                                            .ToListAsync();
 
-            return base.View(await uow.GymClassRepository.GetAsync());
+            return base.View(res);
         }
 
        

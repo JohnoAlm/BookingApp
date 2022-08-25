@@ -22,6 +22,11 @@ namespace BookingApp.Data.Repositories
         public async Task<IEnumerable<GymClass>> GetAsync()
         {
             return await db.GymClasses.ToListAsync();
+        } 
+        
+        public async Task<IEnumerable<GymClass>> GetWithAttendinAsync()
+        {
+            return await db.GymClasses.Include(g => g.AttendingMembers).ToListAsync();
         }
     }
 }
