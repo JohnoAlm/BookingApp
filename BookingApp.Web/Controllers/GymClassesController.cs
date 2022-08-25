@@ -52,7 +52,7 @@ namespace BookingApp.Web.Controllers
 
             var userId = userManager.GetUserId(User);
             var gymClasses2 = await uow.GymClassRepository.GetWithAttendinAsync();//await db.GymClasses.Include(g => g.AttendingMembers).ToListAsync();
-            var res = mapper.Map<IEnumerable<GymClassesViewModel>>(gymClasses2, opt => opt.Items.Add("Id", userId));
+            var res = mapper.Map<IEnumerable<GymClassesViewModel>>(gymClasses2);//, opt => opt.Items.Add("Id", userId));
 
             var gymClasses = await db.GymClasses.Include(g => g.AttendingMembers) //Include Not required
                                            .Select(g => new GymClassesViewModel
