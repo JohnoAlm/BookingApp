@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using BookingApp.Web.Extensions;
 using BookingApp.Core.Repositories;
 using AutoMapper;
+using BookingApp.Core.ViewModels;
 
 namespace BookingApp.Web.Controllers
 {
@@ -43,6 +44,24 @@ namespace BookingApp.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
+           // var m = await mapper.ProjectTo<GymClassesViewModel>(db.GymClasses).ToListAsync();
+
+            var classes = await uow.GymClassRepository.GetAsync();
+            var mmm = mapper.Map<IEnumerable<GymClassesViewModel>>(classes);
+
+            var userId = userManager.GetUserId(User);
+
+            var gymClasses = await db.GymClasses.Include(g => g.AttendingMembers) //Include Not required
+                                           .Select(g => new GymClassesViewModel
+                                           {
+                                               Id = g.Id,
+                                               Name = g.Name,
+                                               Duration = g.Duration,
+                                               StartDate = g.StartDate,
+                                               Attending = g.AttendingMembers.Any(a => a.ApplicationUserId == userId)
+                                           })
+                                           .ToListAsync();
+
             return base.View(await uow.GymClassRepository.GetAsync());
         }
 

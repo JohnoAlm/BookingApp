@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using BookingApp.Core.Entitis;
+using BookingApp.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,7 @@ namespace BookingApp.Data
     {
         public MapperProfile()
         {
-
+            CreateMap<GymClass, GymClassesViewModel>();
         }
     }
 }
