@@ -31,6 +31,35 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+//Same as above with more options to configure!
+//builder.Services.AddAuthentication(o =>
+//{
+//    o.DefaultScheme = IdentityConstants.ApplicationScheme;
+//    o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+//})
+//.AddIdentityCookies(o => 
+//{
+//    o.ApplicationCookie.Configure(o =>
+//        {
+//            o.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+//        });
+//});
+
+//builder.Services.AddIdentityCore<ApplicationUser>(options =>
+//{
+//    options.Stores.MaxLengthForKeys = 128;
+//    options.SignIn.RequireConfirmedAccount = false;
+//    options.Password.RequireDigit = false;
+//    options.Password.RequireNonAlphanumeric = false;
+//    options.Password.RequireUppercase = false;
+//    options.Password.RequiredLength = 3;
+//})
+//.AddRoles<IdentityRole>()
+//.AddDefaultUI()
+//.AddDefaultTokenProviders()
+//.AddEntityFrameworkStores<ApplicationDbContext>();
+
+
 builder.Services.AddControllersWithViews(opt =>
 {
     //opt.Filters.Add<AuthorizeFilter>();
