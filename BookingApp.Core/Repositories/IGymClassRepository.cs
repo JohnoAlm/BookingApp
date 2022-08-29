@@ -10,4 +10,34 @@ namespace BookingApp.Core.Repositories
         Task<GymClass?> GetAsync(int? id);
         void Add(GymClass gymclass);
     }
+
+
+    //public class MockGymClassRepo : IGymClassRepository
+    //{
+    //    public void Add(GymClass gymclass)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public Task<IEnumerable<GymClass>> GetAsync()
+    //    {
+            
+    //    }
+
+    //    public Task<GymClass?> GetAsync(int? id)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public Task<IEnumerable<GymClass>> GetHistoryAsync()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public Task<IEnumerable<GymClass>> GetWithAttendinAsync()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
+
 }
