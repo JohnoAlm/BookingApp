@@ -1,4 +1,6 @@
-﻿namespace BookingApp.Core.Repositories
+﻿using BookingApp.Core.Entitis;
+
+namespace BookingApp.Core.Repositories
 {
     public interface IUnitOfWork
     {
@@ -6,5 +8,6 @@
         IApplicationUserGymRepository UserGymRepository { get; }
 
         Task CompleteAsync();
+
     }
 }

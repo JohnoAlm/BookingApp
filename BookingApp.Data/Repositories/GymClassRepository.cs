@@ -38,6 +38,14 @@ namespace BookingApp.Data.Repositories
                 .ToListAsync();
         }
 
+        public async Task<GymClass?> GetAsync(int? id)
+        {
+           return  await db.GymClasses.FirstOrDefaultAsync(m => m.Id == id);
+        }
 
+        public void Add(GymClass gymclass)
+        {
+            db.Add(gymclass);
+        }
     }
 }

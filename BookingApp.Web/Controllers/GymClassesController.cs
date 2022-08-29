@@ -22,17 +22,17 @@ namespace BookingApp.Web.Controllers
     public class GymClassesController : Controller
     {
         private readonly IMapper mapper;
-        private readonly ApplicationDbContext db;
+       // private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IUnitOfWork uow;
 
         //private readonly GymClassRepository gymClassRepository;
         //private readonly ApplicationUserGymRepository userGymRepository;
 
-        public GymClassesController(IMapper mapper ,ApplicationDbContext context, UserManager<ApplicationUser> userManager, IUnitOfWork uow)
+        public GymClassesController(IMapper mapper ,/*ApplicationDbContext context*/ UserManager<ApplicationUser> userManager, IUnitOfWork uow)
         {
             this.mapper = mapper;
-            db = context;
+         //   db = context;
             this.userManager = userManager;
             //uow = new UnitOfWork(db);
             //gymClassRepository = new GymClassRepository(context);
@@ -90,7 +90,7 @@ namespace BookingApp.Web.Controllers
                 //db.AppUserGyms.Remove(attending);
             }
 
-            await db.SaveChangesAsync();
+            await uow.CompleteAsync();
 
             return RedirectToAction("Index");
 
@@ -104,8 +104,8 @@ namespace BookingApp.Web.Controllers
                 return NotFound();
             }
 
-            var gymClass = await db.GymClasses
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var gymClass = await uow.GymClassRepository.GetAsync(id); 
+                
             if (gymClass == null)
             {
                 return NotFound();
@@ -134,8 +134,8 @@ namespace BookingApp.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Add(gymClass);
-                await db.SaveChangesAsync();
+                uow.GymClassRepository.Add(gymClass);
+                await uow.CompleteAsync();
                 return Request.IsAjax() ? PartialView("GymClass", gymClass) :  RedirectToAction(nameof(Index));
             }
             //Check if Ajax!
@@ -149,97 +149,97 @@ namespace BookingApp.Web.Controllers
         }
 
         // GET: GymClasses/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null )
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null )
+        //    {
+        //        return NotFound();
+        //    }
 
-            var gymClass = await db.GymClasses.FindAsync(id);
-            if (gymClass == null)
-            {
-                return NotFound();
-            }
-            return View(gymClass);
-        }
+        //    var gymClass = await db.GymClasses.FindAsync(id);
+        //    if (gymClass == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(gymClass);
+        //}
 
-        // POST: GymClasses/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartDate,Duration,Description")] GymClass gymClass)
-        {
-            if (id != gymClass.Id)
-            {
-                return NotFound();
-            }
+        //// POST: GymClasses/Edit/5
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartDate,Duration,Description")] GymClass gymClass)
+        //{
+        //    if (id != gymClass.Id)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    db.Update(gymClass);
-                    await db.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!GymClassExists(gymClass.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(gymClass);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            db.Update(gymClass);
+        //            await db.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!GymClassExists(gymClass.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(gymClass);
+        //}
 
-        // GET: GymClasses/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || db.GymClasses == null)
-            {
-                return NotFound();
-            }
+        //// GET: GymClasses/Delete/5
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null || db.GymClasses == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var gymClass = await db.GymClasses
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (gymClass == null)
-            {
-                return NotFound();
-            }
+        //    var gymClass = await db.GymClasses
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (gymClass == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(gymClass);
-        }
+        //    return View(gymClass);
+        //}
 
-        // POST: GymClasses/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (db.GymClasses == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.GymClasses'  is null.");
-            }
-            var gymClass = await db.GymClasses.FindAsync(id);
-            if (gymClass != null)
-            {
-                db.GymClasses.Remove(gymClass);
-            }
+        //// POST: GymClasses/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    if (db.GymClasses == null)
+        //    {
+        //        return Problem("Entity set 'ApplicationDbContext.GymClasses'  is null.");
+        //    }
+        //    var gymClass = await db.GymClasses.FindAsync(id);
+        //    if (gymClass != null)
+        //    {
+        //        db.GymClasses.Remove(gymClass);
+        //    }
             
-            await db.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //    await db.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
-        private bool GymClassExists(int id)
-        {
-          return (db.GymClasses?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
+        //private bool GymClassExists(int id)
+        //{
+        //  return (db.GymClasses?.Any(e => e.Id == id)).GetValueOrDefault();
+        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
