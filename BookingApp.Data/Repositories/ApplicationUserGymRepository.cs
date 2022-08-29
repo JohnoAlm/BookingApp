@@ -4,6 +4,7 @@ using BookingApp.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +20,9 @@ namespace BookingApp.Data.Repositories
             this.db = db ?? throw new ArgumentNullException(nameof(db));
         }
 
-        public async Task<ApplicationUserGymClass> FindAsync(string userId, int gymClassId)
+        [return: MaybeNull]
+        public async Task<ApplicationUserGymClass?> FindAsync(string userId, int gymClassId)
         {
-            //ToDo Fix return null!!!
             return await db.AppUserGyms.FindAsync(userId, gymClassId);
         }
 

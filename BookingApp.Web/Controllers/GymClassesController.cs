@@ -70,7 +70,7 @@ namespace BookingApp.Web.Controllers
 
             if (userId == null) return BadRequest();
 
-            var attending = await uow.UserGymRepository.FindAsync(userId, (int)id);
+            var attending = await uow.UserGymRepository.FindAsync(userId, (int)id)!;
 
             if (attending == null)
             {
