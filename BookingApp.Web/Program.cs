@@ -37,7 +37,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 //    o.DefaultScheme = IdentityConstants.ApplicationScheme;
 //    o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
 //})
-//.AddIdentityCookies(o => 
+//.AddIdentityCookies(o =>
 //{
 //    o.ApplicationCookie.Configure(o =>
 //        {

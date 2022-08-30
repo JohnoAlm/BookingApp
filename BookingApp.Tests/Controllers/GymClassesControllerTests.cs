@@ -69,7 +69,35 @@ namespace BookingApp.Tests.Controllers
             Assert.IsType<IndexViewModel>(actual);
             Assert.Equal(expected, actual?.GymClasses.Count());
 
+        } 
+        
+        [Fact]
+        public void Create_ReturnsDefaultViewName_ShouldReturnNull()
+        {
+            controller.SetAjaxRequest( false);
+
+            var actual = controller.Create() as ViewResult;
+
+            Assert.IsType<ViewResult>(actual);
+            Assert.Null(actual?.ViewName);
+
+        } 
+        
+        
+        [Fact]
+        public void Create_ReturnsPartialView_ShouldReturnExpected()
+        {
+            controller.SetAjaxRequest( true);
+            const string expectedViewName = "CreatePartial";
+
+            var actual = controller.Create() as PartialViewResult;
+
+            Assert.IsType<PartialViewResult>(actual);
+            Assert.Equal(expectedViewName ,actual?.ViewName);
+
         }
+
+
 
 
 
