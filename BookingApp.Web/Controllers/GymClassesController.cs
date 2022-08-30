@@ -16,6 +16,7 @@ using BookingApp.Web.Extensions;
 using BookingApp.Core.Repositories;
 using AutoMapper;
 using BookingApp.Core.ViewModels;
+using Booking.Web.Filters;
 
 namespace BookingApp.Web.Controllers
 {
@@ -97,21 +98,10 @@ namespace BookingApp.Web.Controllers
         }
 
         // GET: GymClasses/Details/5
+        [RequiredParameterRequiredModel("id")]
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null )
-            {
-                return NotFound();
-            }
-
-            var gymClass = await uow.GymClassRepository.GetAsync(id); 
-                
-            if (gymClass == null)
-            {
-                return NotFound();
-            }
-
-            return View(gymClass);
+            return View(await uow.GymClassRepository.GetAsync(id));
         }
 
         // GET: GymClasses/Create
